@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  pt-eureka-server:
+    build:
+      context: ./pt-eureka-server
+      dockerfile: Dockerfile
+    image: pt-eureka-server:latest
+    ports:
+      - 8761:8761
+    networks:
+      - eureka-network
+
+  pt-gateway:
+    build:
+      context: ./pt-gateway
+      dockerfile: Dockerfile
+    image: pt-gateway:latest
+    ports:
+      - 8765:8765
+    networks:
+      - eureka-network
+
+  observador:
+    build:
+      context: ./comportamental/observador
+      dockerfile: Dockerfile
+    image: observador:latest
+    ports:
+      - 8466:8466
+    networks:
+      - eureka-network
+
+networks:
+  eureka-network:
+    driver: bridge
